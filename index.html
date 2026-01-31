@@ -1043,7 +1043,7 @@ body {
             <p class="text-slate-600 dark:text-slate-400 text-lg mb-10 max-w-2xl mx-auto">
                 Discover all of scapeT's features and start planning your perfect adventure
             </p>
-            <a href="#" id="cta-button" class="group relative inline-flex items-center gap-2 px-8 py-4 bg-[#56A87E] hover:bg-[#4a9570] text-white font-tech uppercase tracking-widest text-sm transition-all duration-300 clip-diagonal overflow-hidden">
+            <a href="https://scapet.alzentis.com" id="cta-button" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center gap-2 px-8 py-4 bg-[#56A87E] hover:bg-[#4a9570] text-white font-tech uppercase tracking-widest text-sm transition-all duration-300 clip-diagonal overflow-hidden">
                 <span class="relative z-10">Go to Official Page</span>
                 <i data-lucide="external-link" class="w-4 h-4 relative z-10"></i>
                 <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -1189,13 +1189,8 @@ body {
         lucide.createIcons();
         
         document.getElementById('cta-button')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            const officialUrl = '#';
-            if (officialUrl !== '#') {
-                window.location.href = officialUrl;
-            } else {
-                alert('The official page will be available soon. Thank you for your interest!');
-            }
+            const officialUrl = 'https://scapet.alzentis.com';
+            window.open(officialUrl, '_blank', 'noopener,noreferrer');
         });
         
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
