@@ -1,0 +1,1602 @@
+ <!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="scapeT - Plan your perfect trip. Enter your destination and get personalized recommendations about places, budget and more.">
+    <title>scapeT | Plan Your Perfect Trip</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tu-usuario.github.io/scapeT-landing/">
+    <meta property="og:title" content="scapeT - Plan Your Perfect Trip">
+    <meta property="og:description" content="scapeT helps you discover amazing destinations and create the ideal itinerary for your next adventure">
+    <meta property="og:image" content="https://tu-usuario.github.io/scapeT-landing/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tu-usuario.github.io/scapeT-landing/">
+    <meta property="twitter:title" content="scapeT - Plan Your Perfect Trip">
+    <meta property="twitter:description" content="scapeT helps you discover amazing destinations and create the ideal itinerary for your next adventure">
+    <meta property="twitter:image" content="https://tu-usuario.github.io/scapeT-landing/og-image.jpg">
+    
+    <!-- PWA -->
+    <meta name="theme-color" content="#56A87E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="scapeT">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS Config - Must be after Tailwind loads -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+:root {
+    --primary-green: #56A87E;
+    --primary-green-dark: #4a9570;
+    --primary-green-light: #6bb894;
+    --deep-navy: #020408;
+    --panel-gray: #0F1218;
+    /* Light mode colors */
+    --light-bg: #ffffff;
+    --light-surface: #f8f9fa;
+    --light-text: #1a1a1a;
+    --light-text-secondary: #4a5568;
+    --light-border: #e2e8f0;
+}
+html {
+    background-color: white;
+    transition: background-color 0.3s ease;
+}
+html.dark {
+    background-color: var(--deep-navy);
+}
+body {
+    font-family: 'Inter', sans-serif;
+    cursor: default;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+.font-tech {
+    font-family: 'Space Grotesk', monospace;
+}
+/* Technical Grid Overlay */
+.tech-grid {
+    background-size: 4rem 4rem;
+    background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+.dark .tech-grid {
+    background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+/* Cinematic Grain */
+.noise-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.01;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+}
+.dark .noise-overlay {
+    opacity: 0.03;
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f8f9fa;
+}
+.dark ::-webkit-scrollbar-track {
+    background: #020408;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 0;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: #334155;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green);
+}
+/* Magnetic Button Glow */
+.btn-magnetic {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.btn-magnetic::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+.btn-magnetic:hover::before {
+    left: 100%;
+}
+/* Text Utilities */
+.text-glow {
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.dark .text-glow {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+/* Smooth Fade In */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+/* Anime.js animation classes */
+.anime-fade-in {
+    opacity: 0;
+}
+.anime-slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+}
+.anime-scale-in {
+    opacity: 0;
+    transform: scale(0.95);
+}
+.clip-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
+}
+/* Team Gallery Modal */
+.team-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.dark .team-modal {
+    background-color: rgba(2, 4, 8, 0.98);
+}
+.team-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+.team-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.team-modal-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.team-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10000;
+}
+.team-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+.team-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10000;
+}
+.team-modal-nav:hover {
+    background-color: rgba(86, 168, 126, 0.3);
+    border-color: #56A87E;
+}
+.team-modal-nav.prev {
+    left: 20px;
+}
+.team-modal-nav.next {
+    right: 20px;
+}
+.team-modal-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: white;
+    font-size: 14px;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.1em;
+}
+.team-image-clickable {
+    cursor: pointer;
+}
+/* Pricing Section Styles */
+.pricing-card {
+    transition: all 0.3s ease;
+}
+.pricing-card:hover {
+    transform: translateY(-4px);
+}
+.pricing-card.best-value {
+    border-color: #56A87E;
+    position: relative;
+}
+.best-value-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: linear-gradient(135deg, #56A87E 0%, #4a9570 100%);
+    color: white;
+    padding: 4px 12px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+}
+.calculator-widget {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.dark .calculator-widget {
+    background: rgba(10, 12, 16, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.trip-points-display {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #56A87E 0%, #4a9570 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.days-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+}
+.dark .days-slider {
+    background: #334155;
+}
+.days-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #56A87E;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.days-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 8px rgba(86, 168, 126, 0.2);
+}
+.days-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #56A87E;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+.days-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 8px rgba(86, 168, 126, 0.2);
+}
+.recommended-package {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(86, 168, 126, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(86, 168, 126, 0);
+    }
+}
+/* Silk Background Effect */
+.silk-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--primary-green-light);
+    background-image: 
+        radial-gradient(at 27% 37%, rgba(255, 255, 255, 0.15) 0px, transparent 50%),
+        radial-gradient(at 97% 21%, rgba(255, 255, 255, 0.1) 0px, transparent 50%),
+        radial-gradient(at 52% 99%, rgba(255, 255, 255, 0.12) 0px, transparent 50%),
+        radial-gradient(at 10% 29%, rgba(255, 255, 255, 0.08) 0px, transparent 50%),
+        radial-gradient(at 97% 96%, rgba(255, 255, 255, 0.1) 0px, transparent 50%),
+        radial-gradient(at 33% 50%, rgba(255, 255, 255, 0.13) 0px, transparent 50%),
+        radial-gradient(at 79% 53%, rgba(255, 255, 255, 0.09) 0px, transparent 50%);
+    background-size: 200% 200%;
+    animation: silkMove 20s ease infinite;
+    opacity: 0.3;
+}
+.dark .silk-background {
+    background-color: var(--primary-green);
+    opacity: 0.8;
+}
+@keyframes silkMove {
+    0%, 100% { 
+        background-position: 0% 0%, 100% 0%, 50% 100%, 0% 50%, 100% 100%, 50% 50%, 80% 50%;
+    }
+    50% { 
+        background-position: 40% 40%, 60% 40%, 50% 60%, 40% 50%, 60% 60%, 50% 50%, 60% 50%;
+    }
+}
+    </style>
+</head>
+<body class="antialiased bg-white dark:bg-[#020408] text-slate-900 dark:text-slate-100 selection:bg-[#56A87E] selection:text-white dark:selection:text-white">
+
+    <!-- Noise Texture Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-40 border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-[#020408]/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 group cursor-pointer">
+                <i data-lucide="map-pin" class="text-[#56A87E] w-6 h-6 group-hover:rotate-12 transition-transform duration-500"></i>
+                <span class="font-tech text-lg tracking-[0.2em] font-semibold text-slate-900 dark:text-white uppercase">SCAPET</span>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6 font-tech text-xs tracking-widest text-slate-600 dark:text-slate-400 uppercase">
+                <a href="#caracteristicas" class="hover:text-[#56A87E] transition-colors duration-300">Features</a>
+                <a href="#como-funciona" class="hover:text-[#56A87E] transition-colors duration-300">How It Works</a>
+                <a href="#precios" class="hover:text-[#56A87E] transition-colors duration-300">Pricing</a>
+                <a href="#equipo" class="hover:text-[#56A87E] transition-colors duration-300">Team</a>
+                
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-lg border border-slate-300 dark:border-white/20 hover:border-[#56A87E] hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-300" aria-label="Toggle theme">
+                    <i data-lucide="moon" id="theme-icon" class="w-5 h-5 text-slate-700 dark:text-white"></i>
+                </button>
+                
+                <a href="#cta" class="btn-magnetic border border-slate-300 dark:border-white/20 px-6 py-2 text-slate-900 dark:text-white hover:border-[#56A87E] hover:text-[#56A87E] transition-colors duration-300 clip-diagonal">
+                    Get Started
+                </a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="md:hidden flex items-center gap-4">
+                <button id="theme-toggle-mobile" class="p-2 rounded-lg border border-slate-300 dark:border-white/20 hover:border-[#56A87E] hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-300" aria-label="Toggle theme">
+                    <i data-lucide="moon" id="theme-icon-mobile" class="w-5 h-5 text-slate-700 dark:text-white"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex items-center justify-center overflow-hidden">
+        <!-- Silk Background -->
+        <div class="absolute inset-0 w-full h-full z-0">
+            <div class="silk-background"></div>
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-white dark:from-[#020408] via-white/80 dark:via-[#020408]/80 to-transparent"></div>
+            <!-- Radial Focus -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,white_90%)] dark:bg-[radial-gradient(circle_at_center,transparent_0%,#020408_90%)]"></div>
+        </div>
+
+        <!-- Technical Grid -->
+        <div class="absolute inset-0 tech-grid z-0 opacity-20"></div>
+
+        <!-- Content -->
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full mt-20">
+            <div class="flex flex-col items-start max-w-4xl">
+                <!-- Status Indicator -->
+                <div class="hero-status flex items-center gap-3 mb-6">
+                    <div class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#56A87E] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-[#56A87E]"></span>
+                    </div>
+                    <span class="font-tech text-xs tracking-[0.2em] text-[#56A87E] uppercase">System Active: Planning Available</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-semibold text-slate-900 dark:text-white tracking-tighter uppercase leading-[0.9] mb-8 text-glow">
+                    Plan Your <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-slate-400 dark:from-slate-200 dark:to-slate-600">Perfect Trip</span>
+                </h1>
+
+                <p class="hero-description text-slate-600 dark:text-slate-400 text-lg md:text-xl font-light max-w-xl leading-relaxed mb-10 border-l border-[#56A87E]/50 pl-6">
+                    scapeT helps you discover amazing destinations and create the ideal itinerary for your next adventure. Enter your destination, answer a few questions, and get personalized recommendations.
+                </p>
+
+                <!-- CTA -->
+                <div class="hero-cta flex flex-col md:flex-row gap-6">
+                    <a href="#caracteristicas" class="group relative px-8 py-4 bg-[#56A87E] hover:bg-[#4a9570] text-white font-tech uppercase tracking-widest text-sm transition-all duration-300 clip-diagonal overflow-hidden">
+                        <span class="relative z-10 flex items-center gap-2">
+                            Discover How It Works <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </span>
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                    </a>
+                    
+                    <a href="#equipo" class="group px-8 py-4 border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white font-tech uppercase tracking-widest text-sm hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-300 clip-diagonal">
+                        Our Team
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Data Strip -->
+        <div class="absolute bottom-0 w-full border-t border-slate-200 dark:border-white/10 bg-slate-100/50 dark:bg-black/20 backdrop-blur-sm z-20 hidden md:block">
+            <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between text-xs text-slate-600 dark:text-slate-500 font-tech tracking-widest uppercase">
+                <div class="flex gap-8">
+                    <span class="flex items-center gap-2"><i data-lucide="globe" class="w-3 h-3 text-[#56A87E]"></i> Destinations: Unlimited</span>
+                    <span class="flex items-center gap-2"><i data-lucide="zap" class="w-3 h-3 text-[#56A87E]"></i> Response: Instant</span>
+                </div>
+                <div>SCROLL TO EXPLORE</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="caracteristicas" class="py-32 relative overflow-hidden border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#020408]">
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#56A87E]/10 to-transparent pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
+                <div>
+                    <span class="font-tech text-xs text-[#56A87E] tracking-[0.3em] uppercase mb-4 block">Features</span>
+                    <h2 class="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase">What Does <br> scapeT Do?</h2>
+                </div>
+                <div class="hidden md:block w-32 h-[1px] bg-slate-300 dark:bg-slate-700 mb-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Card 1: Enter Your Destination -->
+                <div class="group relative h-80 border border-slate-200 dark:border-white/5 p-8 flex flex-col justify-end overflow-hidden hover:border-[#56A87E]/30 transition-all duration-500">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity duration-700">
+                        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Map and travel destination" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/90 dark:via-[#020408]/90 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 left-0 p-4 z-10">
+                        <span class="font-tech text-xs text-slate-600 dark:text-white/40 border border-slate-300 dark:border-white/10 px-2 py-1 bg-white/50 dark:bg-[#020408]/50 backdrop-blur-sm">01</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="map-pin" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-2">Enter Your Destination</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 max-w-sm">Simply type the place where you want to travel and scapeT will start helping you with the planning.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Answer Questions -->
+                <div class="group relative h-80 border border-slate-200 dark:border-white/5 p-8 flex flex-col justify-end overflow-hidden hover:border-[#56A87E]/30 transition-all duration-500">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity duration-700">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop" 
+                             alt="Conversation and questions" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/90 dark:via-[#020408]/90 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 left-0 p-4 z-10">
+                        <span class="font-tech text-xs text-slate-600 dark:text-white/40 border border-slate-300 dark:border-white/10 px-2 py-1 bg-white/50 dark:bg-[#020408]/50 backdrop-blur-sm">02</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="help-circle" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-2">Answer Questions</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 max-w-sm">Answer a few quick questions about your preferences and the type of trip you're looking for.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Get Recommendations -->
+                <div class="group relative h-80 border border-slate-200 dark:border-white/5 p-8 flex flex-col justify-end overflow-hidden hover:border-[#56A87E]/30 transition-all duration-500">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-40 group-hover:opacity-50 transition-opacity duration-700">
+                        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Tourist places and recommendations" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700"
+                             loading="lazy"
+                             onerror="this.src='https://images.unsplash.com/photo-1501785888041-af3ba6f60060?q=80&w=2070&auto=format&fit=crop'">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/85 dark:via-[#020408]/85 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 left-0 p-4 z-10">
+                        <span class="font-tech text-xs text-slate-600 dark:text-white/40 border border-slate-300 dark:border-white/10 px-2 py-1 bg-white/50 dark:bg-[#020408]/50 backdrop-blur-sm">03</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="sparkles" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-2">Get Recommendations</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 max-w-sm">Receive personalized details about places to visit, estimated budget, and more.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Complete Planning -->
+                <div class="group relative h-80 border border-slate-200 dark:border-white/5 p-8 flex flex-col justify-end overflow-hidden hover:border-[#56A87E]/30 transition-all duration-500 md:col-span-2">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity duration-700">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop" 
+                             alt="Complete trip and planning" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/90 dark:via-[#020408]/90 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 left-0 p-4 z-10">
+                        <span class="font-tech text-xs text-slate-600 dark:text-white/40 border border-slate-300 dark:border-white/10 px-2 py-1 bg-white/50 dark:bg-[#020408]/50 backdrop-blur-sm">04</span>
+                    </div>
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between w-full">
+                        <div>
+                            <i data-lucide="check-circle" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                            <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-2">Complete Planning</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 max-w-md">Everything you need to know to make your trip an unforgettable experience.</p>
+                        </div>
+                        <div class="mt-6 md:mt-0">
+                             <a href="#como-funciona" class="inline-flex items-center gap-2 text-xs font-tech text-slate-900 dark:text-white uppercase tracking-widest hover:text-[#56A87E] transition-colors">
+                                See How It Works <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="como-funciona" class="py-32 relative overflow-hidden border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#020408]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
+                <div>
+                    <span class="font-tech text-xs text-[#56A87E] tracking-[0.3em] uppercase mb-4 block">Process</span>
+                    <h2 class="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase">How It <br> Works</h2>
+                </div>
+                <div class="hidden md:block w-32 h-[1px] bg-slate-300 dark:bg-slate-700 mb-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
+                <!-- Step 1 -->
+                <div class="group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-colors duration-500 overflow-hidden">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+                        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Mapa y destino" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/80 dark:via-[#020408]/80 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity z-10">
+                        <span class="font-tech text-2xl text-[#56A87E] font-bold">01</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="edit" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2 uppercase">Enter Your Destination</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Enter the name of the city or country where you want to travel</p>
+                        <div class="w-full h-[1px] bg-slate-300 dark:bg-slate-800 mt-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 h-full w-full bg-[#56A87E]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-colors duration-500 overflow-hidden">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop" 
+                             alt="Conversation and questions" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/80 dark:via-[#020408]/80 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity z-10">
+                        <span class="font-tech text-2xl text-[#56A87E] font-bold">02</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="message-square" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2 uppercase">Answer the Questions</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Share information about your preferences, budget, and the type of trip you're looking for</p>
+                        <div class="w-full h-[1px] bg-slate-300 dark:bg-slate-800 mt-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 h-full w-2/3 bg-[#56A87E]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-colors duration-500 overflow-hidden">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Planning and documents" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/80 dark:via-[#020408]/80 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity z-10">
+                        <span class="font-tech text-2xl text-[#56A87E] font-bold">03</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="file-text" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2 uppercase">Receive Your Plan</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Get detailed recommendations about places, activities, budget, and useful tips</p>
+                        <div class="w-full h-[1px] bg-slate-300 dark:bg-slate-800 mt-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 h-full w-3/4 bg-[#56A87E]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-colors duration-500 overflow-hidden">
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop" 
+                             alt="Trip and adventure" 
+                             class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white dark:from-[#020408] via-white/80 dark:via-[#020408]/80 to-transparent"></div>
+                    </div>
+                    <div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity z-10">
+                        <span class="font-tech text-2xl text-[#56A87E] font-bold">04</span>
+                    </div>
+                    <div class="relative z-10">
+                        <i data-lucide="plane" class="text-[#56A87E] w-8 h-8 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2 uppercase">Travel & Enjoy!</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">With all the information in your hands, all that's left is to enjoy your adventure</p>
+                        <div class="w-full h-[1px] bg-slate-300 dark:bg-slate-800 mt-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 h-full w-full bg-[#56A87E]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precios" class="py-32 relative overflow-hidden border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#020408]">
+        <!-- Decoration -->
+        <div class="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-[#56A87E]/10 to-transparent pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
+                <div>
+                    <span class="font-tech text-xs text-[#56A87E] tracking-[0.3em] uppercase mb-4 block">Pricing</span>
+                    <h2 class="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase">TriPoints <br> Plans</h2>
+                </div>
+                <div class="hidden md:block w-32 h-[1px] bg-slate-300 dark:bg-slate-700 mb-4"></div>
+            </div>
+
+            <!-- TriPoints Explanation Card -->
+            <div class="mb-16 pricing-card group relative p-8 border border-[#56A87E]/30 bg-gradient-to-br from-[#56A87E]/5 to-transparent dark:from-[#56A87E]/10 dark:to-transparent rounded-lg">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="w-16 h-16 rounded-full bg-[#56A87E]/20 dark:bg-[#56A87E]/30 flex items-center justify-center">
+                            <i data-lucide="coins" class="w-8 h-8 text-[#56A87E]"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-2">What are TriPoints?</h3>
+                        <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            TriPoints are our internal currency used to generate AI-powered travel plans. Each time you create an itinerary, TriPoints are deducted based on your trip duration. Purchase TriPoints packages to unlock unlimited travel planning possibilities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Packages Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <!-- Package 1: 100 TriPoints -->
+                <div class="pricing-card group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-all duration-500 rounded-lg">
+                    <div class="mb-6">
+                        <div class="text-4xl font-bold text-slate-900 dark:text-white mb-2">100</div>
+                        <div class="text-sm font-tech text-slate-600 dark:text-slate-400 uppercase tracking-widest">TriPoints</div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-3xl font-semibold text-slate-900 dark:text-white mb-1">$1.99</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-600 uppercase">USD</div>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Perfect for:</p>
+                        <ul class="text-xs text-slate-500 dark:text-slate-600 space-y-1">
+                            <li>• Short trips (1-3 days)</li>
+                        </ul>
+                    </div>
+                    <button class="w-full px-6 py-3 border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white font-tech uppercase tracking-widest text-xs hover:bg-[#56A87E] hover:border-[#56A87E] hover:text-white transition-all duration-300 clip-diagonal">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Package 2: 250 TriPoints -->
+                <div class="pricing-card group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-all duration-500 rounded-lg">
+                    <div class="mb-6">
+                        <div class="text-4xl font-bold text-slate-900 dark:text-white mb-2">250</div>
+                        <div class="text-sm font-tech text-slate-600 dark:text-slate-400 uppercase tracking-widest">TriPoints</div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-3xl font-semibold text-slate-900 dark:text-white mb-1">$4.99</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-600 uppercase">USD</div>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Perfect for:</p>
+                        <ul class="text-xs text-slate-500 dark:text-slate-600 space-y-1">
+                            <li>• Medium trips (4-10 days)</li>
+                        </ul>
+                    </div>
+                    <button class="w-full px-6 py-3 border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white font-tech uppercase tracking-widest text-xs hover:bg-[#56A87E] hover:border-[#56A87E] hover:text-white transition-all duration-300 clip-diagonal">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Package 3: 350 TriPoints - Best Value -->
+                <div class="pricing-card best-value group relative p-8 border-2 border-[#56A87E] bg-gradient-to-br from-[#56A87E]/10 to-transparent dark:from-[#56A87E]/20 dark:to-transparent transition-all duration-500 rounded-lg">
+                    <div class="best-value-badge">Best Value</div>
+                    <div class="mb-6">
+                        <div class="text-4xl font-bold text-slate-900 dark:text-white mb-2">350</div>
+                        <div class="text-sm font-tech text-slate-600 dark:text-slate-400 uppercase tracking-widest">TriPoints</div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-3xl font-semibold text-slate-900 dark:text-white mb-1">$6.99</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-600 uppercase">USD</div>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Perfect for:</p>
+                        <ul class="text-xs text-slate-500 dark:text-slate-600 space-y-1">
+                            <li>• Extended trips (11-15 days)</li>
+                            <li>• Best price per point</li>
+                        </ul>
+                    </div>
+                    <button class="w-full px-6 py-3 bg-[#56A87E] hover:bg-[#4a9570] text-white font-tech uppercase tracking-widest text-xs transition-all duration-300 clip-diagonal">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Package 4: 600 TriPoints -->
+                <div class="pricing-card group relative p-8 border border-slate-200 dark:border-white/5 hover:border-[#56A87E]/30 bg-slate-50 dark:bg-[#0A0C10] transition-all duration-500 rounded-lg">
+                    <div class="mb-6">
+                        <div class="text-4xl font-bold text-slate-900 dark:text-white mb-2">600</div>
+                        <div class="text-sm font-tech text-slate-600 dark:text-slate-400 uppercase tracking-widest">TriPoints</div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-3xl font-semibold text-slate-900 dark:text-white mb-1">$11.99</div>
+                        <div class="text-xs text-slate-500 dark:text-slate-600 uppercase">USD</div>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">Perfect for:</p>
+                        <ul class="text-xs text-slate-500 dark:text-slate-600 space-y-1">
+                            <li>• Long trips (16+ days)</li>
+                            <li>• Multiple destinations</li>
+                        </ul>
+                    </div>
+                    <button class="w-full px-6 py-3 border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white font-tech uppercase tracking-widest text-xs hover:bg-[#56A87E] hover:border-[#56A87E] hover:text-white transition-all duration-300 clip-diagonal">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cost Calculator Widget -->
+            <div class="calculator-widget pricing-card group relative p-8 border border-slate-200 dark:border-white/10 rounded-lg">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-2">Cost Calculator</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm">Enter your trip duration to see how many TriPoints you'll need</p>
+                </div>
+
+                <div class="mb-8">
+                    <label for="days-input" class="block text-sm font-tech text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4">
+                        Trip Duration: <span id="days-display" class="text-[#56A87E]">15</span> days
+                    </label>
+                    <input 
+                        type="range" 
+                        id="days-input" 
+                        min="1" 
+                        max="30" 
+                        value="15" 
+                        class="days-slider w-full"
+                        aria-label="Trip duration in days">
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-600 mt-2">
+                        <span>1 day</span>
+                        <span>30 days</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-6 border border-slate-200 dark:border-white/10 rounded-lg bg-white/50 dark:bg-[#020408]/50">
+                        <div class="text-xs font-tech text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-2">Required TriPoints</div>
+                        <div id="calculated-points" class="trip-points-display">350</div>
+                    </div>
+
+                    <div class="p-6 border border-[#56A87E]/30 rounded-lg bg-gradient-to-br from-[#56A87E]/10 to-transparent dark:from-[#56A87E]/20 dark:to-transparent recommended-package">
+                        <div class="text-xs font-tech text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-2">Recommended Package</div>
+                        <div id="recommended-package" class="text-2xl font-bold text-slate-900 dark:text-white mb-1">350 TriPoints</div>
+                        <div id="recommended-price" class="text-sm text-slate-600 dark:text-slate-400">$6.99 USD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="equipo" class="relative py-40 flex items-center justify-center overflow-hidden border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#020408]">
+        <!-- Background -->
+        <div class="absolute inset-0 z-0">
+             <div class="absolute inset-0 bg-gradient-to-b from-white dark:from-[#020408] via-transparent to-white dark:to-[#020408]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <span class="font-tech text-xs text-[#56A87E] tracking-[0.3em] uppercase mb-4 block">Team</span>
+                <h2 class="text-3xl md:text-5xl font-semibold text-slate-900 dark:text-white tracking-tight uppercase mb-6">Our <br class="md:hidden"> Team</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto">
+                    We are a team passionate about travel and technology, working together to make trip planning easier and more exciting for everyone.
+                </p>
+                <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed max-w-2xl mx-auto mt-4">
+                    This project was developed during the Cursor Hackathon in El Salvador, where we combined our skills to create scapeT.
+                </p>
+            </div>
+
+            <!-- Team Gallery -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <!-- Team Image 1 -->
+                <div class="team-image-clickable group relative overflow-hidden border border-slate-200 dark:border-white/10 hover:border-[#56A87E]/30 transition-all duration-500" data-image-index="0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-[#020408]/90 via-transparent to-transparent z-10 pointer-events-none"></div>
+                    <img src="./images/team-1.jpeg" 
+                         alt="scapeT team working at the Hackathon" 
+                         class="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
+                         loading="lazy"
+                         onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop'">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                        <p class="text-slate-900 dark:text-white text-sm font-tech tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Working on scapeT
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Team Image 2 -->
+                <div class="team-image-clickable group relative overflow-hidden border border-slate-200 dark:border-white/10 hover:border-[#56A87E]/30 transition-all duration-500" data-image-index="1">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-[#020408]/90 via-transparent to-transparent z-10 pointer-events-none"></div>
+                    <img src="./images/team-2.jpeg" 
+                         alt="scapeT team developing during the Hackathon" 
+                         class="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
+                         loading="lazy"
+                         onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2070&auto=format&fit=crop'">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                        <p class="text-slate-900 dark:text-white text-sm font-tech tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Development in action
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Team Image 3 -->
+                <div class="team-image-clickable group relative overflow-hidden border border-slate-200 dark:border-white/10 hover:border-[#56A87E]/30 transition-all duration-500" data-image-index="2">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-[#020408]/90 via-transparent to-transparent z-10 pointer-events-none"></div>
+                    <img src="./images/team-3.jpeg" 
+                         alt="scapeT team collaborating at the Hackathon" 
+                         class="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
+                         loading="lazy"
+                         onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop'">
+                    <div class="absolute bottom-0 left-0 right-0 p-6 z-20">
+                        <p class="text-slate-900 dark:text-white text-sm font-tech tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Team collaboration
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Gallery Modal -->
+            <div id="team-modal" class="team-modal">
+                <div class="team-modal-content">
+                    <button class="team-modal-close" id="team-modal-close" aria-label="Close">
+                        <i data-lucide="x" class="w-6 h-6 text-white"></i>
+                    </button>
+                    <button class="team-modal-nav prev" id="team-modal-prev" aria-label="Previous">
+                        <i data-lucide="chevron-left" class="w-6 h-6 text-white"></i>
+                    </button>
+                    <img id="team-modal-image" class="team-modal-image" src="" alt="Team photo">
+                    <button class="team-modal-nav next" id="team-modal-next" aria-label="Next">
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-white"></i>
+                    </button>
+                    <div class="team-modal-counter">
+                        <span id="team-modal-current">1</span> / <span id="team-modal-total">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="relative py-40 flex items-center justify-center overflow-hidden bg-white dark:bg-[#020408]">
+        <!-- Background -->
+        <div class="absolute inset-0 z-0">
+             <div class="silk-background opacity-60"></div>
+             <div class="absolute inset-0 bg-gradient-to-b from-white dark:from-[#020408] via-transparent to-white dark:to-[#020408]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <i data-lucide="rocket" class="w-12 h-12 text-[#56A87E] mx-auto mb-8 opacity-50"></i>
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-semibold text-slate-900 dark:text-white tracking-tighter leading-tight mb-8">
+                READY TO PLAN <br>
+                YOUR NEXT TRIP?
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 text-lg mb-10 max-w-2xl mx-auto">
+                Discover all of scapeT's features and start planning your perfect adventure
+            </p>
+            <a href="#" id="cta-button" class="group relative inline-flex items-center gap-2 px-8 py-4 bg-[#56A87E] hover:bg-[#4a9570] text-white font-tech uppercase tracking-widest text-sm transition-all duration-300 clip-diagonal overflow-hidden">
+                <span class="relative z-10">Go to Official Page</span>
+                <i data-lucide="external-link" class="w-4 h-4 relative z-10"></i>
+                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative bg-slate-50 dark:bg-[#05060A] border-t border-slate-200 dark:border-white/10 pt-20 pb-10">
+        <!-- Decoration Lines -->
+        <div class="absolute top-0 left-10 w-[1px] h-full bg-slate-300 dark:bg-white/5 hidden md:block"></div>
+        <div class="absolute top-0 right-10 w-[1px] h-full bg-slate-300 dark:bg-white/5 hidden md:block"></div>
+
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <!-- Col 1 -->
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <i data-lucide="map-pin" class="text-[#56A87E] w-5 h-5"></i>
+                        <span class="font-tech text-md tracking-[0.2em] font-semibold text-slate-900 dark:text-white uppercase">scapeT</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-500 text-sm leading-relaxed mb-6">
+                        Plan your perfect trip. Enter your destination and get personalized recommendations about places, budget, and more.
+                    </p>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="font-tech text-xs text-slate-900 dark:text-white uppercase tracking-widest mb-6">Navigation</h4>
+                    <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-500 font-light">
+                        <li><a href="#caracteristicas" class="hover:text-[#56A87E] transition-colors">Features</a></li>
+                        <li><a href="#como-funciona" class="hover:text-[#56A87E] transition-colors">How It Works</a></li>
+                        <li><a href="#precios" class="hover:text-[#56A87E] transition-colors">Pricing</a></li>
+                        <li><a href="#equipo" class="hover:text-[#56A87E] transition-colors">Team</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="font-tech text-xs text-slate-900 dark:text-white uppercase tracking-widest mb-6">Information</h4>
+                    <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-500 font-light">
+                        <li><span class="hover:text-[#56A87E] transition-colors">Cursor Hackathon</span></li>
+                        <li><span class="hover:text-[#56A87E] transition-colors">El Salvador</span></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div>
+                    <h4 class="font-tech text-xs text-slate-900 dark:text-white uppercase tracking-widest mb-6">Contact</h4>
+                    <p class="text-slate-600 dark:text-slate-500 text-sm leading-relaxed">
+                        Developed during the Cursor Hackathon in El Salvador.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-slate-200 dark:border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[10px] text-slate-500 dark:text-slate-600 uppercase tracking-widest font-tech">
+                    © 2026 scapeT - Cursor Hackathon El Salvador. All rights reserved.
+                </p>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="h-1 w-1 rounded-full bg-[#56A87E]"></div>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-600 uppercase tracking-widest font-tech">Made with ❤️ by the scapeT team</span>
+                    </div>
+                    <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-600 uppercase tracking-widest font-tech">Powered by</span>
+                        <a href="https://cursor.sh" target="_blank" rel="noopener noreferrer" class="flex items-center">
+                            <img src="./cursor-brand-assets/General Logos/Wordmark/SVG/WORDMARK_LIGHT.svg" 
+                                 alt="Cursor" 
+                                 class="h-4 dark:hidden"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                            <img src="./cursor-brand-assets/General Logos/Wordmark/SVG/WORDMARK_DARK.svg" 
+                                 alt="Cursor" 
+                                 class="h-4 hidden dark:block"
+                                 onerror="this.style.display='none';">
+                            <span class="ml-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hidden cursor-fallback">Cursor</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeIconMobile = document.getElementById('theme-icon-mobile');
+            
+            if (savedTheme === 'light') {
+                html.classList.remove('dark');
+                if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+                if (themeIconMobile) themeIconMobile.setAttribute('data-lucide', 'sun');
+            } else {
+                html.classList.add('dark');
+                if (themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
+                if (themeIconMobile) themeIconMobile.setAttribute('data-lucide', 'moon');
+            }
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+        
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeIconMobile = document.getElementById('theme-icon-mobile');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+                if (themeIconMobile) themeIconMobile.setAttribute('data-lucide', 'sun');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                if (themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
+                if (themeIconMobile) themeIconMobile.setAttribute('data-lucide', 'moon');
+            }
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                initTheme();
+                document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+                document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+            });
+        } else {
+            initTheme();
+            document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+            document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+        }
+        
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        document.getElementById('cta-button')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            const officialUrl = '#';
+            if (officialUrl !== '#') {
+                window.location.href = officialUrl;
+            } else {
+                alert('The official page will be available soon. Thank you for your interest!');
+            }
+        });
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Anime.js Animations
+        if (typeof anime !== 'undefined') {
+            // Hero Section Animations
+            const heroElements = [
+                { el: '.hero-status', delay: 50 },
+                { el: '.hero-title', delay: 100 },
+                { el: '.hero-description', delay: 150 },
+                { el: '.hero-cta', delay: 200 }
+            ];
+            
+            heroElements.forEach(({ el, delay }) => {
+                const element = document.querySelector(el);
+                if (element) {
+                    anime({
+                        targets: element,
+                        opacity: [0, 1],
+                        translateY: [30, 0],
+                        duration: 500,
+                        delay: delay,
+                        easing: 'easeOutCubic'
+                    });
+                }
+            });
+            
+            // Features Cards Animation on Scroll
+            const featureCards = document.querySelectorAll('#caracteristicas .group');
+            const featureObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateY: [40, 0],
+                            scale: [0.95, 1],
+                            duration: 400,
+                            delay: index * 50,
+                            easing: 'easeOutCubic'
+                        });
+                        featureObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = '0';
+                featureObserver.observe(card);
+            });
+            
+            // How It Works Steps Animation on Scroll
+            const stepCards = document.querySelectorAll('#como-funciona .group');
+            const stepObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateX: index % 2 === 0 ? [-30, 0] : [30, 0],
+                            duration: 400,
+                            delay: index * 40,
+                            easing: 'easeOutCubic'
+                        });
+                        stepObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            stepCards.forEach(card => {
+                card.style.opacity = '0';
+                stepObserver.observe(card);
+            });
+            
+            // Team Images Animation on Scroll
+            const teamImages = document.querySelectorAll('#equipo .group');
+            const teamObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            scale: [0.9, 1],
+                            duration: 450,
+                            delay: index * 75,
+                            easing: 'easeOutCubic'
+                        });
+                        teamObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            teamImages.forEach(img => {
+                img.style.opacity = '0';
+                teamObserver.observe(img);
+            });
+            
+            // Team Gallery Modal
+            const teamModal = document.getElementById('team-modal');
+            const teamModalImage = document.getElementById('team-modal-image');
+            const teamModalClose = document.getElementById('team-modal-close');
+            const teamModalPrev = document.getElementById('team-modal-prev');
+            const teamModalNext = document.getElementById('team-modal-next');
+            const teamModalCurrent = document.getElementById('team-modal-current');
+            const teamModalTotal = document.getElementById('team-modal-total');
+            const teamImageClickables = document.querySelectorAll('.team-image-clickable');
+            
+            const teamImagesData = [
+                { src: './images/team-1.jpeg', alt: 'scapeT team working at the Hackathon' },
+                { src: './images/team-2.jpeg', alt: 'scapeT team developing during the Hackathon' },
+                { src: './images/team-3.jpeg', alt: 'scapeT team collaborating at the Hackathon' }
+            ];
+            
+            let currentImageIndex = 0;
+            
+            function openTeamModal(index) {
+                currentImageIndex = index;
+                updateModalImage();
+                teamModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                if (typeof anime !== 'undefined') {
+                    anime({
+                        targets: teamModal,
+                        opacity: [0, 1],
+                        duration: 300,
+                        easing: 'easeOutCubic'
+                    });
+                    anime({
+                        targets: teamModalImage,
+                        scale: [0.8, 1],
+                        opacity: [0, 1],
+                        duration: 400,
+                        delay: 100,
+                        easing: 'easeOutCubic'
+                    });
+                }
+                
+                // Update icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+            
+            function closeTeamModal() {
+                if (typeof anime !== 'undefined') {
+                    anime({
+                        targets: teamModal,
+                        opacity: [1, 0],
+                        duration: 300,
+                        easing: 'easeInCubic',
+                        complete: () => {
+                            teamModal.classList.remove('active');
+                            document.body.style.overflow = '';
+                        }
+                    });
+                } else {
+                    teamModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            function updateModalImage() {
+                const imageData = teamImagesData[currentImageIndex];
+                teamModalImage.src = imageData.src;
+                teamModalImage.alt = imageData.alt;
+                teamModalCurrent.textContent = currentImageIndex + 1;
+                teamModalTotal.textContent = teamImagesData.length;
+                
+                // Show/hide navigation buttons
+                teamModalPrev.style.display = currentImageIndex === 0 ? 'none' : 'flex';
+                teamModalNext.style.display = currentImageIndex === teamImagesData.length - 1 ? 'none' : 'flex';
+            }
+            
+            function nextImage() {
+                if (currentImageIndex < teamImagesData.length - 1) {
+                    currentImageIndex++;
+                    if (typeof anime !== 'undefined') {
+                        anime({
+                            targets: teamModalImage,
+                            opacity: [1, 0],
+                            translateX: -50,
+                            duration: 200,
+                            easing: 'easeInCubic',
+                            complete: () => {
+                                updateModalImage();
+                                anime({
+                                    targets: teamModalImage,
+                                    opacity: [0, 1],
+                                    translateX: [50, 0],
+                                    duration: 300,
+                                    easing: 'easeOutCubic'
+                                });
+                            }
+                        });
+                    } else {
+                        updateModalImage();
+                    }
+                }
+            }
+            
+            function prevImage() {
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    if (typeof anime !== 'undefined') {
+                        anime({
+                            targets: teamModalImage,
+                            opacity: [1, 0],
+                            translateX: 50,
+                            duration: 200,
+                            easing: 'easeInCubic',
+                            complete: () => {
+                                updateModalImage();
+                                anime({
+                                    targets: teamModalImage,
+                                    opacity: [0, 1],
+                                    translateX: [-50, 0],
+                                    duration: 300,
+                                    easing: 'easeOutCubic'
+                                });
+                            }
+                        });
+                    } else {
+                        updateModalImage();
+                    }
+                }
+            }
+            
+            // Event listeners
+            teamImageClickables.forEach((clickable, index) => {
+                clickable.addEventListener('click', () => {
+                    openTeamModal(index);
+                });
+            });
+            
+            teamModalClose.addEventListener('click', closeTeamModal);
+            teamModalPrev.addEventListener('click', prevImage);
+            teamModalNext.addEventListener('click', nextImage);
+            
+            // Close on background click
+            teamModal.addEventListener('click', (e) => {
+                if (e.target === teamModal) {
+                    closeTeamModal();
+                }
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (teamModal.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        closeTeamModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        prevImage();
+                    } else if (e.key === 'ArrowRight') {
+                        nextImage();
+                    }
+                }
+            });
+            
+            // CTA Section Animation on Scroll
+            const ctaSection = document.querySelector('#cta');
+            const ctaObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: '#cta h2',
+                            opacity: [0, 1],
+                            translateY: [30, 0],
+                            duration: 500,
+                            easing: 'easeOutCubic'
+                        });
+                        anime({
+                            targets: '#cta p',
+                            opacity: [0, 1],
+                            translateY: [20, 0],
+                            duration: 450,
+                            delay: 100,
+                            easing: 'easeOutCubic'
+                        });
+                        anime({
+                            targets: '#cta-button',
+                            opacity: [0, 1],
+                            scale: [0.9, 1],
+                            duration: 400,
+                            delay: 200,
+                            easing: 'easeOutBack'
+                        });
+                        ctaObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            if (ctaSection) {
+                ctaObserver.observe(ctaSection);
+            }
+            
+            // Hover Effects for Cards
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.02,
+                        duration: 300,
+                        easing: 'easeOutQuad'
+                    });
+                });
+                card.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 300,
+                        easing: 'easeOutQuad'
+                    });
+                });
+            });
+            
+            // Button Hover Effects
+            const buttons = document.querySelectorAll('a[href="#caracteristicas"], a[href="#equipo"], #cta-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.05,
+                        duration: 200,
+                        easing: 'easeOutQuad'
+                    });
+                });
+                button.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 200,
+                        easing: 'easeOutQuad'
+                    });
+                });
+            });
+            
+            // Pricing Section Calculator Logic
+            function calculateTriPoints(days) {
+                if (days <= 3) return 100;
+                if (days <= 10) return 250;
+                if (days <= 15) return 350;
+                return 350 + (days - 15) * 50;
+            }
+            
+            function recommendPackage(triPoints) {
+                const packages = [
+                    { points: 100, price: 1.99 },
+                    { points: 250, price: 4.99 },
+                    { points: 350, price: 6.99 },
+                    { points: 600, price: 11.99 }
+                ];
+                const recommended = packages.find(p => p.points >= triPoints) || packages[packages.length - 1];
+                return recommended;
+            }
+            
+            const daysInput = document.getElementById('days-input');
+            const daysDisplay = document.getElementById('days-display');
+            const calculatedPoints = document.getElementById('calculated-points');
+            const recommendedPackageEl = document.getElementById('recommended-package');
+            const recommendedPriceEl = document.getElementById('recommended-price');
+            
+            function updateCalculator() {
+                const days = parseInt(daysInput.value);
+                const triPoints = calculateTriPoints(days);
+                const recommended = recommendPackage(triPoints);
+                
+                // Update days display
+                daysDisplay.textContent = days;
+                
+                // Animate TriPoints number change
+                if (typeof anime !== 'undefined') {
+                    const currentPoints = parseInt(calculatedPoints.textContent) || 0;
+                    anime({
+                        targets: { value: currentPoints },
+                        value: triPoints,
+                        duration: 300,
+                        easing: 'easeOutCubic',
+                        update: function(anim) {
+                            calculatedPoints.textContent = Math.round(anim.animatables[0].target.value);
+                        }
+                    });
+                    
+                    // Animate recommended package update
+                    anime({
+                        targets: recommendedPackageEl,
+                        scale: [1, 1.1, 1],
+                        duration: 400,
+                        easing: 'easeOutCubic'
+                    });
+                } else {
+                    calculatedPoints.textContent = triPoints;
+                }
+                
+                // Update recommended package
+                recommendedPackageEl.textContent = `${recommended.points} TriPoints`;
+                recommendedPriceEl.textContent = `$${recommended.price.toFixed(2)} USD`;
+            }
+            
+            if (daysInput) {
+                daysInput.addEventListener('input', updateCalculator);
+                // Initialize calculator
+                updateCalculator();
+            }
+            
+            // Pricing Cards Animation on Scroll
+            const pricingCards = document.querySelectorAll('#precios .pricing-card');
+            const pricingObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateY: [40, 0],
+                            scale: [0.95, 1],
+                            duration: 400,
+                            delay: index * 50,
+                            easing: 'easeOutCubic'
+                        });
+                        pricingObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            pricingCards.forEach(card => {
+                card.style.opacity = '0';
+                pricingObserver.observe(card);
+            });
+            
+            // Pricing Card Hover Effects
+            pricingCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (typeof anime !== 'undefined') {
+                        anime({
+                            targets: this,
+                            scale: 1.02,
+                            duration: 300,
+                            easing: 'easeOutQuad'
+                        });
+                    }
+                });
+                card.addEventListener('mouseleave', function() {
+                    if (typeof anime !== 'undefined') {
+                        anime({
+                            targets: this,
+                            scale: 1,
+                            duration: 300,
+                            easing: 'easeOutQuad'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
